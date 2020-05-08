@@ -56,7 +56,7 @@ class Graph:
     def is_edge_oriented(self, id_from, id_to) -> bool:
         return self.AdjMatrix[id_to][id_from] != []
 
-    def draw(self) -> None:
+    def draw(self):
         for v in self.vertices:
             v.draw()
         for i, from_list in enumerate(self.AdjMatrix):

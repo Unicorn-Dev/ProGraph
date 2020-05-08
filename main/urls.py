@@ -3,8 +3,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'prographs'
+app_name = 'main'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('graph/<int:graph_id>', views.graph, name='graph'),
 ]
