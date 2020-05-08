@@ -1,45 +1,18 @@
-class Vertex:
-    def __init__(self, _id, _x, _y, _text) -> None:
-        self.x = _x
-        self.y = _y
-        self.text = _text
-
-    def coordinates(self) -> tuple:
-        return self.x, self.y
-
-    def change_coordinates(self, _x, _y) -> None:
-        self.x = _x
-        self.y = _y
-
-    def change_text(self, _text) -> None:
-        self.text = _text
-
-    def draw(self) -> None:
-        pass
-
-
-class Edge:
-    def __init__(self, _weight=None) -> None:
-        self.weight = _weight
-
-    def change_weight(self, _weight):
-        self.weight = _weight
-
-    def draw(self, _from, _to, number_of_same_edges=0):
-        pass
+import networkx as nx
 
 
 class Graph:
     def __init__(self, _vertices=[]):
         self.vertices = _vertices
-        self.get_vertex = {i: v for i, v in enumerate(_vertices)}
+        self.get_vertex_id = {v: i for i, v in enumerate(_vertices)}
         self.V = len(_vertices)
         self.E = 0
-        self.AdjMatrix = [[[] * self.V] * self.V]
+        self.AdjMatrix = [[[] for j in range(self.V)] for i in range(self.V)]
+        self.nx = nx.MultiGraph().to_directed()
 
     def add_vertex(self, _vertex) -> None:
         self.vertices.append(_vertex)
-        self.get_vertex[self.V] = _vertex
+        self.get_vertex_id[_vertex] = self.V
         self.V += 1
         if self.V == 1:
             self.AdjMatrix = [[[]]]
@@ -47,22 +20,39 @@ class Graph:
             for v in self.AdjMatrix:
                 v.append([])
             self.AdjMatrix.append([[] * self.V])
+        self.nx.add_node(_vertex)
 
-    def add_edge(self, id_from, id_to, _weight) -> None:
+    def add_edge(self, _from, _to, _weight=None) -> None:
         self.E += 1
-        edge = Edge(_weight)
-        self.AdjMatrix[id_from][id_to].append(edge)
+        id_from, id_to = self.get_vertex_id[_from], self.get_vertex_id[_to]
+        self.AdjMatrix[id_from][id_to].append(_weight)
+        self.nx.add_edge(_from, _to)
 
     def is_edge_oriented(self, id_from, id_to) -> bool:
         return self.AdjMatrix[id_to][id_from] != []
 
-    def draw(self):
-        for v in self.vertices:
-            v.draw()
-        for i, from_list in enumerate(self.AdjMatrix):
-            _from = self.get_vertex[i]
-            for j, to_list in enumerate(from_list):
-                _to = self.get_vertex[j]
-                num_of_same_edges = len(to_list) - 1
-                for edge in to_list:
-                    edge.draw(_from, _to, num_of_same_edges)
+    def draw(self, color='y'):
+        import matplotlib.pyplot as plt
+        from io import BytesIO
+        from base64 import b64encode as encode
+
+        pos = nx.circular_layout(self.nx)
+        nx.draw_networkx_nodes(self.nx, pos, node_color=color)
+        nx.draw_networkx_labels(self.nx, pos)
+        ax = plt.gca()
+        for edge in self.nx.edges:
+            _from, to, freq = edge
+            radius = 0.3 * freq + 0.15
+            ax.annotate("",
+                        xy=pos[_from], xytext=pos[to],
+                        arrowprops=dict(arrowstyle="<-", shrinkA=9, shrinkB=10,
+                                        connectionstyle=f"arc3, rad={radius}"),
+                        )
+        plt.axis('off')
+
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.getvalue()
+        buffer.close()
+        return encode(image_png).decode('utf-8')
