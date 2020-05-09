@@ -1,0 +1,10 @@
+{% if latest_graph_list %}
+    <ul>
+    {% for graph in latest_graph_list %}
+        <li><a href="{% url 'concrete_graph' graph.id %}">{{ graph.AdjList}}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No graphs are available.</p>
+{% endif %}

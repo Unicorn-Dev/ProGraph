@@ -1,0 +1,13 @@
+
+<div class="control-panel">
+    <div class="add-vertex">
+        <p>Add new vertex:</p>
+        <form class="add-vertex" method="post">
+            <input name="vertex-name" type="text" placeholder="Название вершины" />
+            <button formaction="add-vertex" type="submit">Add</button>
+        </form>
+    </div>
+</div>
+
+{{ graph }}
+<img src="data:image/png;base64,{{ graph_img|safe }}">
