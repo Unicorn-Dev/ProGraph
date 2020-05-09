@@ -37,9 +37,23 @@ class Graph:
         from io import BytesIO
         from base64 import b64encode as encode
 
+        pos = nx.circular_layout(self.nx)
+        nx.draw_networkx_nodes(self.nx, pos, node_color=color)
+        nx.draw_networkx_labels(self.nx, pos)
+        ax = plt.gca()
+        for edge in self.nx.edges:
+            _from, to, freq = edge
+            radius = 0.3 * freq + 0.15
+            ax.annotate("",
+                        xy=pos[_from], xytext=pos[to],
+                        arrowprops=dict(arrowstyle="<-", shrinkA=9, shrinkB=10,
+                                        connectionstyle=f"arc3, rad={radius}"),
+                        )
+        plt.axis('off')
 
-        x1, y1 = [-1, 12], [1, 4]
-        x2, y2 = [1, 10], [3, 2]
-        
-        
-        return '900'
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.getvalue()
+        buffer.close()
+        return encode(image_png).decode('utf-8')
