@@ -1,13 +1,22 @@
+<h1>Graph {{ graph.id }}</h1>
+{{ graph }}
+<form action="{% url 'add_vertex' graph.id %}" method="post">
+{% csrf_token %}
+<p>Add new vertex:</p>
+<input name="vertex_name" type="text" placeholder="Vertex name">
+<input type="submit" value="Add">
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+</form>
 
 <div class="control-panel">
-    <div class="add-vertex">
+    <div class="add_vertex">
         <p>Add new vertex:</p>
-        <form class="add-vertex" method="post">
-            <input name="vertex-name" type="text" placeholder="Название вершины" />
-            <button formaction="add-vertex" type="submit">Add</button>
+        <form class="add_vertex" method="post">
+        {% csrf_token %}
+            <input name="vertex_name" type="text" placeholder="Vertex name"/>
+            <button formaction="add_vertex" type="submit">Add</button>
         </form>
     </div>
 </div>
 
-{{ graph }}
 <img src="data:image/png;base64,{{ graph_img|safe }}">

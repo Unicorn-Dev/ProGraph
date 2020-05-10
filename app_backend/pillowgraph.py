@@ -59,6 +59,10 @@ class PillowGraph:
                 outline=(100, 100, 100, 200),
                 width=int(r / 10))
             # if it doesn't work on Windows try font = ImageFont.truetype('arial')
+            font = ImageFont.truetype('Keyboard.ttf', int(r * 1.6))
+            textX, textY = draw.textsize(str(name), font=font)
+            draw.text([xy[0] - textX / 2, xy[1] - textY / 2],
+                      str(name), font=font, fill=(0, 0, 0, 255))
             font = ImageFont.truetype('Keyboard.ttf', int(r * 1.5))
             textX, textY = draw.textsize(str(name), font=font)
             draw.text([xy[0] - textX / 2, xy[1] - textY / 2],

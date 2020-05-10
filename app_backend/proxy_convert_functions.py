@@ -18,3 +18,21 @@ def StringToAdjListDict(AdjListString):
 def get_graph_img(AdjList):
     G = PillowGraph(AdjList)
     return G.draw()
+
+def add_vertex(graph, vertex):
+    """Return False if vertex already exist"""
+    AdjListDict = StringToAdjListDict(graph.AdjList)
+    try:
+        vertex = int(vertex)
+    except Exception as e:
+        pass
+    try:
+        AdjListDict[vertex]
+    except Exception as e:
+        pass
+    else:
+        return False
+    AdjListDict[vertex] = {}
+    graph.AdjList = str(AdjListDict)
+    graph.save()
+    return True
