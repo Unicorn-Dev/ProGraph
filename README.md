@@ -1,4 +1,4 @@
-# review
+# Reviews
 ## 1st review
 Идея проекта - сайт для построения графов с возможностью интерактивного запуска алгоритмов (вроде поиска в ширину) на них.  
 Пока реализованно:
@@ -11,6 +11,10 @@
 # About ProGraph
 Website created to make interaction with graphs easier.
 ProGraph helps visualize graph and applies a lot of algorithms.
+
+## 2nd review
+1. Теперь можно добавлять новые вершины к графу
+1. Добавленны некоторые тесты
 
 # License
 

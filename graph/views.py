@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
-from app_backend import proxy_convert_functions as ps_funcs
+from app_backend import proxy_convert_functions as pc_funcs
 
 from .models import Graph
 
@@ -24,14 +24,14 @@ class ConcreteView(generic.DetailView):
 error_message = None
 def concrete_graph(request, graph_id):
     graph = get_object_or_404(Graph, pk=graph_id)
-    AdjList = ps_funcs.StringToAdjListDict(graph.AdjList)
-    context =  {'graph': graph, 'graph_img': ps_funcs.get_graph_img(AdjList), 'error_message': error_message}
+    AdjList = pc_funcs.StringToAdjListDict(graph.AdjList)
+    context =  {'graph': graph, 'graph_img': pc_funcs.get_graph_img(AdjList), 'error_message': error_message}
     return render(request, 'graph/concrete_graph.html', context)
 
 def add_vertex(request, graph_id):
     graph = get_object_or_404(Graph, pk=graph_id)
     vertex = request.POST['vertex_name']
-    vert_is_added = ps_funcs.add_vertex(graph, vertex)
+    vert_is_added = pc_funcs.add_vertex(graph, vertex)
     try:
     	pass
     except Exception as e:
