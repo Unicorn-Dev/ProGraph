@@ -7,7 +7,7 @@
 1. На стрницах /graph/numer/  видны кнопки добавления новых вершин (они пока не работают) и изображение графа.
 "Нестндартные" модули -- django, matplotlib, networkx, pillow (Интструкция по установке ниже и запуску).  
 Пример того что вы должны увидеть:
-![](https://drive.google.com/file/d/1Mo-i169Rb_DosnMzUDYYumTY3EliC13Q/view?usp=sharing)
+![](https://github.com/Falier77777/test_lfs2/blob/master/Снимок%20экрана%202020-05-10%20в%2013.08.48.png)
 # About ProGraph
 Website created to make interaction with graphs easier.
 ProGraph helps visualize graph and applies a lot of algorithms.
