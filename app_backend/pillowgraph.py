@@ -1,7 +1,7 @@
 import math
 from io import BytesIO
 from base64 import b64encode as encode
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 
 class PillowGraph:
@@ -37,13 +37,12 @@ class PillowGraph:
         return True
 
     def draw(self, color='y'):
-
         im = Image.new('RGBA', (self.imgXsize, self.imgYsize))
         
         draw = ImageDraw.Draw(im)
-        self._draw_vertexes(draw)
         self._draw_edges(draw)
-                
+        self._draw_vertexes(draw)
+        
         with BytesIO() as buffer:
             im.save(buffer, format='png')
             buffer.seek(0)
@@ -52,13 +51,18 @@ class PillowGraph:
         return encode(image_png).decode('utf-8')
 
     def _draw_vertexes(self, draw):
-        r = int((self.imgXsize + self.imgYsize) / 40)   
-        for xy in self.vertices.values():
+        r = int((self.imgXsize + self.imgYsize) / 40)
+        for name, xy in self.vertices.items():
             draw.ellipse(
                 [xy[0] - r, xy[1] - r, xy[0] + r, xy[1] + r],
-                fill=(100, 0, 0, 230), 
-                outline=(100, 100, 100, 200), 
+                fill=(100, 0, 0, 230),
+                outline=(100, 100, 100, 200),
                 width=int(r / 10))
+            # if it doesn't work on Windows try font = ImageFont.truetype('arial')
+            font = ImageFont.truetype('Keyboard.ttf', int(r * 1.5))
+            textX, textY = draw.textsize(str(name), font=font)
+            draw.text([xy[0] - textX / 2, xy[1] - textY / 2],
+                      str(name), font=font, fill=(255, 255, 255, 0))
     
     def _draw_edges(self, draw):
         for _from, val in self.AdjList.items():
