@@ -12,6 +12,7 @@ def graph_index(request):
 
 def concrete_graph(request, graph_id):
     graph = get_object_or_404(Graph, pk=graph_id)
-    context =  {'graph': graph, 'graph_img': ps_funcs.get_graph_img()}
+    AdjList = ps_funcs.StringToAdjListDict(graph.AdjList)
+    context =  {'graph': graph, 'graph_img': ps_funcs.get_graph_img(AdjList)}
     return render(request, 'graph/concrete_graph.html', context)
 
