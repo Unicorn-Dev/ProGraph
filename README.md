@@ -8,13 +8,14 @@
 "Нестндартные" модули -- django, matplotlib, networkx, pillow (Интструкция по установке ниже и запуску).  
 Пример того что вы должны увидеть:
 ![](https://github.com/Falier77777/test_lfs2/blob/master/Снимок%20экрана%202020-05-10%20в%2013.08.48.png)
-# About ProGraph
-Website created to make interaction with graphs easier.
-ProGraph helps visualize graph and applies a lot of algorithms.
 
 ## 2nd review
 1. Теперь можно добавлять новые вершины к графу
 1. Добавленны некоторые тесты
+
+# About ProGraph
+Website created to make interaction with graphs easier.
+ProGraph helps visualize graph and applies a lot of algorithms.
 
 # License
 
