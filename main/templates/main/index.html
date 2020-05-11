@@ -1,2 +1,14 @@
 
-<p>Some very usddeful information.</p>
+<h1>ProGraph</h1>
+
+<form action="{% url 'get_graph' %}" method="post">
+{% csrf_token %}
+  <p>Get existing Graph. Paste graph id</p>
+  <input name="graph_id" type="text" placeholder="">
+  <input type="submit" value="Join">
+</form>
+<form action="{% url 'new_graph' %}" method="post">
+{% csrf_token %}
+  <p>Or create new</p>
+  <input type="submit" value="Create new graph">
+</form>

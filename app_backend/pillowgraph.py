@@ -14,9 +14,9 @@ class PillowGraph:
             Example: {'1': [0, 0.4], '2': [2.32, 1.223]}
         self.AdjList is dict of dicts
             AdjList[_from] is dict where
-            keys is _to vertex 
-            and vals is edge weight
-            Example: {'1': {}, '2': {'1': 0}}
+                keys is _to vertex 
+                and vals is list of edges weight
+            Example: {'1': {}, '2': {'1': [0]}}
         """
         assert isinstance(_AdjList, dict)
         _vertices = list(_AdjList.keys())
@@ -85,7 +85,7 @@ class PillowGraph:
     
     def _draw_edges(self, draw):
         for _from, val in self.AdjList.items():
-            for _to, weight in val.items():
+            for _to, weights in val.items():
                 xy = (self.vertices[_from][0], self.vertices[_from][1], 
                     self.vertices[_to][0], self.vertices[_to][1])
                 draw.line(xy, fill=(50, 50, 50, 250), 

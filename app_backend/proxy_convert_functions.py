@@ -1,6 +1,7 @@
-from .graph import Graph
 from .pillowgraph import PillowGraph
 from .exceptions import *
+from graph.models import Graph
+from django.utils import timezone
 
 
 def AdjListDictToString(AdjListDict):
@@ -131,3 +132,8 @@ def delete_edge(graph, edge):
         raise EdgeDoesNotExist(edge)
     graph.AdjList = str(AdjListDict)
     graph.save()
+
+def create_graph():
+    new_graph = Graph(AdjList={}, pub_date=timezone.now())
+    new_graph.save()
+    return new_graph.id
