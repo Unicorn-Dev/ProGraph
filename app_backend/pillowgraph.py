@@ -3,6 +3,8 @@ from io import BytesIO
 from base64 import b64encode as encode
 from PIL import Image, ImageDraw, ImageFont
 
+from .exceptions import *
+
 
 class PillowGraph:
     def __init__(self, _AdjList=dict(), directed=False,
@@ -25,13 +27,10 @@ class PillowGraph:
         self.vertices = dict()
         for ver in _vertices:
             self.vertices[ver] = [0, 0]
-        self.add_vertex()
+        self.set_vertex_coords()
         self.AdjList = _AdjList
 
-    def add_vertex(self, _vertex=None) -> None:
-        if _vertex is not None:
-            self.vertices[_vertex] = [0, 0]
-            self.AdjList[_vertex] = dict()
+    def set_vertex_coords(self) -> None:
         N = len(self.vertices)
         for ind, xy in enumerate(self.vertices.values()):
             xy[0] = (1 + math.cos(ind * 2 * math.pi / N) / 1.3)\
@@ -90,3 +89,101 @@ class PillowGraph:
                     self.vertices[_to][0], self.vertices[_to][1])
                 draw.line(xy, fill=(50, 50, 50, 250), 
                     width=int((self.imgXsize + self.imgYsize) / 200))
+
+    def add_vertex(self, vertex):
+        """
+        Raise Exception if sometsing gone wrong
+        and vertex is not added
+        """
+        assert isinstance(vertex, str)
+        if len(vertex) > 15:
+            raise ToLongName(vertex)
+        try:
+            self.AdjList[vertex]
+        except KeyError:
+            pass
+        else:
+            raise VretexAlreadyExist(vertex)
+        self.AdjList[vertex] = {}
+
+    def add_edge(self, edge):
+        """
+        Raise Exception if sometsing gone wrong
+        and edge is not added
+        """
+        assert isinstance(edge, str)
+        _to, _from, _weight = None, None, None
+        try:
+            _to, _from, _weight = edge.split()
+        except:
+            try:
+                _to, _from = edge.split()
+            except:    
+                raise VretexNumberError(edge)
+        else:
+            try:
+                _weight = int(_weight)
+            except:
+                raise IncorrectWeightError(edge)
+        try:
+            self.AdjList[_to]
+            self.AdjList[_from]
+        except KeyError:
+            raise VretexDoesNotExist(edge)
+        try:
+            self.AdjList[_to][_from]
+        except:
+            self.AdjList[_to][_from] = []
+        self.AdjList[_to][_from].append(_weight)
+
+    def delete_vertex(self, vertex):
+        """
+        Raise Exception if sometsing gone wrong
+        and vertex is not deleted
+        """
+        assert isinstance(vertex, str)
+        try:
+            self.AdjList[vertex]
+        except KeyError:
+            raise VretexDoesNotExist(vertex)
+        del self.AdjList[vertex] 
+        for edge_dic in self.AdjList.values():
+            try:
+                del edge_dic[vertex]
+            except:
+                pass
+
+    def delete_edge(self, edge):
+        """
+        Raise Exception if sometsing gone wrong
+        and edge is not deleted.
+        """
+        assert isinstance(edge, str)
+        _to, _from, _weight = None, None, None
+        try:
+            _to, _from, _weight = edge.split()
+        except:
+            try:
+                _to, _from = edge.split()
+            except:    
+                raise VretexNumberError(edge)
+        else:
+            try:
+                _weight = int(_weight)
+            except:
+                raise IncorrectWeightError(edge)
+        try:
+            self.AdjList[_to]
+            self.AdjList[_from]
+        except KeyError:
+            raise VretexDoesNotExist(edge)
+        try:
+            self.AdjList[_to][_from]
+            if _weight is None:
+                self.AdjList[_to][_from].pop()
+            else:
+                self.AdjList[_to][_from].remove(_weight)
+            if len(self.AdjList[_to][_from]) == 0:
+                del self.AdjList[_to][_from]
+        except:
+            raise EdgeDoesNotExist(edge)
