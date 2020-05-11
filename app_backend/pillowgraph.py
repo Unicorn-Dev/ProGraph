@@ -5,7 +5,19 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class PillowGraph:
-    def __init__(self, _AdjList=dict(), directed=False, _imgXsize=600, _imgYsize=600):
+    def __init__(self, _AdjList=dict(), directed=False,
+                         _imgXsize=600, _imgYsize=600):
+        """
+        self.vertices is dict where
+            keys is vertex
+            vals is coords
+            Example: {'1': [0, 0.4], '2': [2.32, 1.223]}
+        self.AdjList is dict of dicts
+            AdjList[_from] is dict where
+            keys is _to vertex 
+            and vals is edge weight
+            Example: {'1': {}, '2': {'1': 0}}
+        """
         assert isinstance(_AdjList, dict)
         _vertices = list(_AdjList.keys())
         self.imgXsize = _imgXsize
@@ -22,8 +34,10 @@ class PillowGraph:
             self.AdjList[_vertex] = dict()
         N = len(self.vertices)
         for ind, xy in enumerate(self.vertices.values()):
-            xy[0] = (1 + math.cos(ind * 2 * math.pi / N) / 1.3) * self.imgXsize / 2
-            xy[1] = (1 + math.sin(ind * 2 * math.pi / N) / 1.3) * self.imgYsize / 2
+            xy[0] = (1 + math.cos(ind * 2 * math.pi / N) / 1.3)\
+                                    * self.imgXsize / 2
+            xy[1] = (1 + math.sin(ind * 2 * math.pi / N) / 1.3) \
+                                    * self.imgYsize / 2
         
 
     def add_edge(self, _from, _to, _weight=None) -> bool:
@@ -58,7 +72,8 @@ class PillowGraph:
                 fill=(100, 0, 0, 230),
                 outline=(100, 100, 100, 200),
                 width=int(r / 10))
-            # if it doesn't work on Windows try font = ImageFont.truetype('arial')
+            # if it doesn't work on Windows
+            #  try font = ImageFont.truetype('arial')
             font = ImageFont.truetype('Keyboard.ttf', int(r * 1.6))
             textX, textY = draw.textsize(str(name), font=font)
             draw.text([xy[0] - textX / 2, xy[1] - textY / 2],
