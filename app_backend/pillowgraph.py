@@ -2,6 +2,7 @@ import math
 from io import BytesIO
 from base64 import b64encode as encode
 from PIL import Image, ImageDraw, ImageFont
+import platform
 
 from .exceptions import *
 
@@ -73,14 +74,22 @@ class PillowGraph:
                 width=int(r / 10))
             # if it doesn't work on Windows
             #  try font = ImageFont.truetype('arial')
-            font = ImageFont.truetype('Keyboard.ttf', int(r * 1.6))
+            if platform.system() == 'Darwin':
+                font = ImageFont.truetype('Keyboard.ttf', int(r * 1.6))
+            elif platform.system() == 'Linux':
+                font = ImageFont.truetype('FreeMono.ttf', int(r * 1.6))
+            elif platform.system() == 'Windows':
+                font = ImageFont.truetype('arial.ttf', int(r * 1.6))
+            else:
+                raise Exception
             textX, textY = draw.textsize(str(name), font=font)
             draw.text([xy[0] - textX / 2, xy[1] - textY / 2],
-                      str(name), font=font, fill=(0, 0, 0, 255))
+                    str(name), font=font, fill=(0, 0, 0, 255))
             font = ImageFont.truetype('Keyboard.ttf', int(r * 1.5))
             textX, textY = draw.textsize(str(name), font=font)
             draw.text([xy[0] - textX / 2, xy[1] - textY / 2],
-                      str(name), font=font, fill=(255, 255, 255, 0))
+                    str(name), font=font, fill=(255, 255, 255, 0))
+            
     
     def _draw_edges(self, draw):
         for _from, val in self.AdjList.items():
