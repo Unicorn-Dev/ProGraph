@@ -9,6 +9,14 @@ def AdjListDictToString(AdjListDict):
     AdjListString = str(AdjListDict)
     return AdjListString
 
+
+def AlgoSeqListToString(AlgoSequense):
+    """Convert AdjListDict to it's string representation"""
+    assert isinstance(AlgoSequense, list)
+    AlgoSequenseString = str(AlgoSequense)
+    return AlgoSequenseString
+
+
 def StringToAdjListDict(AdjListString):
     """Convert AdjListString to it's dict representation"""
     assert isinstance(AdjListString, str)
@@ -16,9 +24,23 @@ def StringToAdjListDict(AdjListString):
     assert isinstance(AdjListDict, dict)
     return AdjListDict
 
+
+def StringToAlgoSequenseList(AlgoSequenseString):
+    """Convert AdjListString to it's dict representation"""
+    assert isinstance(AlgoSequenseString, str)
+    AlgoSequense = eval(AlgoSequenseString, {'__builtins__':{}})
+    return AlgoSequense
+
+
 def get_graph_img(AdjList):
     G = PillowGraph(AdjList)
     return G.draw()
+
+
+def get_graph_img_with_algo(AdjList, AlgoSequense, algo_iteration):
+    G = PillowGraph(AdjList)
+    return G.algodraw(AlgoSequense, algo_iteration)
+
 
 def add_vertex(graph, vertex):
     """
@@ -31,6 +53,7 @@ def add_vertex(graph, vertex):
     graph.AdjList = str(gr.AdjList)
     graph.save()
 
+
 def add_edge(graph, edge):
     """
     Raise Exception if sometsing gone wrong
@@ -41,6 +64,7 @@ def add_edge(graph, edge):
     gr.add_edge(edge)
     graph.AdjList = str(gr.AdjList)
     graph.save()
+
 
 def delete_vertex(graph, vertex):
     """
@@ -53,6 +77,7 @@ def delete_vertex(graph, vertex):
     graph.AdjList = str(gr.AdjList)
     graph.save()
 
+
 def delete_edge(graph, edge):
     """
     Raise Exception if sometsing gone wrong
@@ -63,6 +88,7 @@ def delete_edge(graph, edge):
     gr.delete_edge(edge)
     graph.AdjList = str(gr.AdjList)
     graph.save()
+
 
 def create_graph():
     new_graph = Graph(AdjList={}, pub_date=timezone.now())

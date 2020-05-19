@@ -5,9 +5,11 @@ import base64
 class Graph(models.Model):
     AdjList = models.CharField(max_length=10000)
     pub_date = models.DateTimeField('date published')
+    AlgoSequense = models.CharField(max_length=10000)
 
     def __str__(self):
         return self.AdjList
+
 
 class Image(models.Model):
     graph = models.ForeignKey(Graph, on_delete=models.CASCADE)

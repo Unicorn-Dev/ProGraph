@@ -1,48 +1,94 @@
+{% extends 'graph/base.html' %}
+
+{% block content %}
 <h1>Graph (ID - {{ graph.id }})</h1>
 <p><a href="{% url 'concrete_graph' graph.id %}">Share link. Work with graph together!</a></p>
-{{ graph }}
+{{ graph.AlgoSequense }}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'add_vertex' graph.id %}" method="post">
-{% csrf_token %}
-  <p>Add new vertex:</p>
-  <input name="vertex_name" type="text" placeholder="Vertex name">
-  <input type="submit" value="Add">
-</form>
-
-<form action="{% url 'add_edge' graph.id %}" method="post">
-{% csrf_token %}
-  <p>Add new edge:</p>
-  <p>write the names of 2 vertexes separated by space, add weight if you would like</p>
-  <input name="edge_name" type="text" placeholder="a b 5 or a b">
-  <input type="submit" value="Add">
-</form>
-
-<form action="{% url 'delete_vertex' graph.id %}" method="post">
-{% csrf_token %}
-  <p>Delete vertex:</p>
-  <input name="vertex_name" type="text" placeholder="Vertex name">
-  <input type="submit" value="Delete">
-</form>
-
-<form action="{% url 'delete_edge' graph.id %}" method="post">
-{% csrf_token %}
-  <p>Delete edge:</p>
-  <p>write the names of 2 vertexes separated by space, add weight if you would like</p>
-  <input name="edge_name" type="text" placeholder="a b or a b 5">
-  <input type="submit" value="Delete">
-</form>
-
 <div class="control-panel">
-    <div class="add_vertex">
-        <p>Add new vertex:</p>
-        <form class="add_vertex" method="post">
+    <div class="change-graph">
+        <form action="{% url 'add_vertex' graph.id %}" method="post">
         {% csrf_token %}
-            <input name="vertex_name" type="text" placeholder="Vertex name"/>
-            <button formaction="add_vertex" type="submit">Add</button>
+          <p>Add new vertex:</p>
+          <input name="vertex_name" type="text" placeholder="Vertex name">
+          <input type="submit" value="Add">
         </form>
+
+        <form action="{% url 'add_edge' graph.id %}" method="post">
+        {% csrf_token %}
+          <p>Add new edge:</p>
+          <p>(write the names of 2 vertices separated by space, add weight if you would like)</p>
+          <input name="edge_name" type="text" placeholder="a b 5 or a b">
+          <input type="submit" value="Add">
+        </form>
+
+        <form action="{% url 'delete_vertex' graph.id %}" method="post">
+        {% csrf_token %}
+          <p>Delete vertex:</p>
+          <input name="vertex_name" type="text" placeholder="Vertex name">
+          <input type="submit" value="Delete">
+        </form>
+
+        <form action="{% url 'delete_edge' graph.id %}" method="post">
+        {% csrf_token %}
+          <p>Delete edge:</p>
+          <p>(write the names of 2 vertices separated by space, add weight if you would like)</p>
+          <input name="edge_name" type="text" placeholder="a b or a b 5">
+          <input type="submit" value="Delete">
+        </form>
+    </div>
+
+    <div class="algorithms">
+        <div class="DFS">
+            <p>DFS:</p>
+            {% if algo != 'dfs' %}
+                <form action="{% url 'complete_dfs' graph.id %}" method="post">
+                    {% csrf_token %}
+                    <input name="start_vertex" type="text" placeholder="From">
+                    <input type="submit" value="Start">
+                </form>
+            {% elif not algo_finished %}
+                <form action="{% url 'next_step_dfs' graph.id algo_iteration %}" method="post">
+                    {% csrf_token %}
+                    <p>Iteration #{{ algo_iteration }} from vertex {{ start_vertex }}.</p>
+                    <input type="submit" value="Continue">
+                </form>
+            {% else %}
+                <form action="{% url 'concrete_graph' graph.id %}" method="post">
+                    {% csrf_token %}
+                    <p>DFS from vertex {{ start_vertex }} finished.</p>
+                    <input type="submit" value="Erase">
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="BFS">
+            <p>BFS:</p>
+            {% if algo != 'bfs' %}
+                <form action="{% url 'complete_bfs' graph.id %}" method="post">
+                    {% csrf_token %}
+                    <input name="start_vertex" type="text" placeholder="From">
+                    <input type="submit" value="Start">
+                </form>
+            {% elif not algo_finished %}
+                <form action="{% url 'next_step_bfs' graph.id algo_iteration %}" method="post">
+                    {% csrf_token %}
+                    <p>Iteration #{{ algo_iteration }} from vertex {{ start_vertex }}.</p>
+                    <input type="submit" value="Continue">
+                </form>
+            {% else %}
+                <form action="{% url 'concrete_graph' graph.id %}" method="post">
+                    {% csrf_token %}
+                    <p>BFS from vertex {{ start_vertex }} finished.</p>
+                    <input type="submit" value="Erase">
+                </form>
+            {% endif %}
+        </div>
     </div>
 </div>
 
 <img src="data:image/png;base64,{{ graph_img|safe }}">
+
+{% endblock content %}
