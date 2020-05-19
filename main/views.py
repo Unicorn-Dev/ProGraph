@@ -14,9 +14,9 @@ def index(request):
 def get_graph(request):
     """The home page for Pro Graph"""
     graph_id = request.POST['graph_id']
-    return HttpResponseRedirect(reverse('concrete_graph', args=(graph_id, )))
+    return HttpResponseRedirect(reverse('graph:concrete_graph', args=(graph_id, )))
 
 def new_graph(request):
     """The home page for Pro Graph"""
     graph_id = pc_funcs.create_graph()
-    return HttpResponseRedirect(reverse('concrete_graph', args=(graph_id, )))
+    return HttpResponseRedirect(reverse('graph:concrete_graph', args=(graph_id, )))

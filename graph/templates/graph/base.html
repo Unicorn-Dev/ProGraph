@@ -1,11 +1,17 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Pro Graph</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block links %}{% endblock links %}
 </head>
 <body>
-{% block content %}{% endblock content %}
+    <div class="container">
+        <canvas id="stars"></canvas>
+		<script src="{% static 'js/stars.js' %}" type="text/javascript"></script>
+        {% block content %}{% endblock content %}
+    </div>
 </body>
 </html>

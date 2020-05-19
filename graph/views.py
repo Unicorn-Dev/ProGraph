@@ -58,7 +58,7 @@ def complete_dfs(request, graph_id):
         return HttpResponseRedirect(
             reverse('concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('next_step_dfs', kwargs={
+    return HttpResponseRedirect(reverse('graph:next_step_dfs', kwargs={
         'graph_id': graph.id,
         'algo_iteration': 0,
     }))
@@ -72,12 +72,12 @@ def add_vertex(request, graph_id):
         pc_funcs.add_vertex(graph, vertex)
     except ToLongName:
         error_message = 'Vertex name is too long.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     except VretexNumberErrortexAlreadyExist:
         error_message = 'This vertex already exist.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+    return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
 
 
 def add_edge(request, graph_id):
@@ -88,15 +88,15 @@ def add_edge(request, graph_id):
         pc_funcs.add_edge(graph, edge)
     except IncorrectWeightError:
         error_message = 'Weight should be integer.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     except VretexNumberError:
         error_message = 'Expected 2 vertex.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     except VretexDoesNotExist:
         error_message = 'One of vertex isn\'t exist.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+    return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
 
 
 def delete_vertex(request, graph_id):
@@ -107,9 +107,9 @@ def delete_vertex(request, graph_id):
         pc_funcs.delete_vertex(graph, vertex)
     except VretexDoesNotExist:
         error_message = 'Vertex isn\'t exist.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+    return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
 
 
 def delete_edge(request, graph_id):
@@ -120,15 +120,15 @@ def delete_edge(request, graph_id):
         pc_funcs.delete_edge(graph, edge)
     except IncorrectWeightError:
         error_message = 'Weight should be integer.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     except VretexNumberError:
         error_message = 'Expected 2 vertex.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     except EdgeDoesNotExist:
         error_message = 'Edge isn\'t exist.'
-        return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+    return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
 
 
 # Algorithms
@@ -144,9 +144,9 @@ def complete_dfs(request, graph_id):
     except:
         error_message = 'DFS failed.'
         return HttpResponseRedirect(
-            reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+            reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('next_step_dfs', kwargs={
+    return HttpResponseRedirect(reverse('graph:next_step_dfs', kwargs={
         'graph_id': graph.id,
         'algo_iteration': 0,
     }))
@@ -158,10 +158,10 @@ def next_step_dfs(request, graph_id, algo_iteration):
     algo, start, AlgoSequense = pc_funcs.StringToAlgoSequenseList(graph.AlgoSequense)
     if algo != 'dfs':
         return HttpResponseRedirect(
-            reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+            reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     algo_iteration += 1
     if not AlgoSequense and algo_iteration > 1:
-        return HttpResponseRedirect(reverse('next_step_dfs', kwargs={
+        return HttpResponseRedirect(reverse('graph:next_step_dfs', kwargs={
             'graph_id': graph.id,
             'algo_iteration': 0,
         }))
@@ -197,9 +197,9 @@ def complete_bfs(request, graph_id):
     except:
         error_message = 'BFS failed.'
         return HttpResponseRedirect(
-            reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+            reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
-    return HttpResponseRedirect(reverse('next_step_bfs', kwargs={
+    return HttpResponseRedirect(reverse('graph:next_step_bfs', kwargs={
         'graph_id': graph.id,
         'algo_iteration': 0,
     }))
@@ -211,15 +211,15 @@ def next_step_bfs(request, graph_id, algo_iteration):
     algo, start, AlgoSequense = pc_funcs.StringToAlgoSequenseList(graph.AlgoSequense)
     if algo != 'bfs':
         return HttpResponseRedirect(
-            reverse('concrete_graph', kwargs={'graph_id': graph.id}))
+            reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     algo_iteration += 1
     if not AlgoSequense and algo_iteration > 1:
-        return HttpResponseRedirect(reverse('next_step_bfs', kwargs={
+        return HttpResponseRedirect(reverse('graph:next_step_bfs', kwargs={
             'graph_id': graph.id,
             'algo_iteration': 0,
         }))
     elif algo_iteration > len(AlgoSequense) and AlgoSequense:
-        return HttpResponseRedirect(reverse('next_step_bfs', kwargs={
+        return HttpResponseRedirect(reverse('graph:next_step_bfs', kwargs={
             'graph_id': graph.id,
             'algo_iteration': len(AlgoSequense) - 1,
         }))

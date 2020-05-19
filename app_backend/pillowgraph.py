@@ -95,13 +95,50 @@ class PillowGraph:
                       self.vertices[_to][0], self.vertices[_to][1])
                 draw.line(xy, fill=(50, 50, 50, 250),
                           width=int((self.imgXsize + self.imgYsize) / 200))
+                centerXY = [(xy[0] + xy[2]) / 2, (xy[1] + xy[3]) / 2]
+                alpha = math.pi / 11
+                dx1 = ((xy[2] - xy[0]) * math.cos(alpha) + (
+                            xy[3] - xy[1]) * math.sin(alpha)) / 8
+                dy1 = ((xy[3] - xy[1]) * math.cos(alpha) - (
+                            xy[2] - xy[0]) * math.sin(alpha)) / 8
+                dx2 = ((xy[2] - xy[0]) * math.cos(alpha) - (
+                            xy[3] - xy[1]) * math.sin(alpha)) / 8
+                dy2 = ((xy[3] - xy[1]) * math.cos(alpha) + (
+                            xy[2] - xy[0]) * math.sin(alpha)) / 8
+                xy_up_arrow_line = [centerXY[0] - dx1, centerXY[1] - dy1,
+                                    centerXY[0], centerXY[1]]
+                xy_down_arrow_line = [centerXY[0] - dx2, centerXY[1] - dy2,
+                                      centerXY[0], centerXY[1]]
+                draw.line(xy_up_arrow_line, fill=(50, 50, 50, 250),
+                          width=int((self.imgXsize + self.imgYsize) / 300))
+                draw.line(xy_down_arrow_line, fill=(50, 50, 50, 250),
+                          width=int((self.imgXsize + self.imgYsize) / 300))
         if special_edges:
             for edge in special_edges:
                 _from, _to = edge
+                color = (255, 164, 4, 250)
                 xy = (self.vertices[_from][0], self.vertices[_from][1],
                       self.vertices[_to][0], self.vertices[_to][1])
-                draw.line(xy, fill=(255, 164, 4, 250),
+                draw.line(xy, fill=color,
                           width=int((self.imgXsize + self.imgYsize) / 200))
+                centerXY = [(xy[0] + xy[2]) / 2, (xy[1] + xy[3]) / 2]
+                alpha = math.pi / 11
+                dx1 = ((xy[2] - xy[0]) * math.cos(alpha) + (
+                            xy[3] - xy[1]) * math.sin(alpha)) / 8
+                dy1 = ((xy[3] - xy[1]) * math.cos(alpha) - (
+                            xy[2] - xy[0]) * math.sin(alpha)) / 8
+                dx2 = ((xy[2] - xy[0]) * math.cos(alpha) - (
+                            xy[3] - xy[1]) * math.sin(alpha)) / 8
+                dy2 = ((xy[3] - xy[1]) * math.cos(alpha) + (
+                            xy[2] - xy[0]) * math.sin(alpha)) / 8
+                xy_up_arrow_line = [centerXY[0] - dx1, centerXY[1] - dy1,
+                                    centerXY[0], centerXY[1]]
+                xy_down_arrow_line = [centerXY[0] - dx2, centerXY[1] - dy2,
+                                      centerXY[0], centerXY[1]]
+                draw.line(xy_up_arrow_line, fill=color,
+                          width=int((self.imgXsize + self.imgYsize) / 300))
+                draw.line(xy_down_arrow_line, fill=color,
+                          width=int((self.imgXsize + self.imgYsize) / 300))
 
     def add_vertex(self, vertex):
         """
