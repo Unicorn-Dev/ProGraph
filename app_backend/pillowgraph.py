@@ -9,7 +9,7 @@ from .exceptions import *
 
 class PillowGraph:
     def __init__(self, _AdjList=dict(), directed=False,
-                 _imgXsize=600, _imgYsize=600):
+                 _imgXsize=2000, _imgYsize=2000):
         """
         self.vertices is dict where
             keys is vertex
