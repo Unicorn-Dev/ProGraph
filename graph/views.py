@@ -105,6 +105,9 @@ def delete_edge(request, graph_id):
     except VretexNumberError:
         error_message = 'Expected 2 vertex.'
         return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
+    except VretexDoesNotExist:
+        error_message = 'One of vertex isn\'t exist.'
+        return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     except EdgeDoesNotExist:
         error_message = 'Edge isn\'t exist.'
         return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
