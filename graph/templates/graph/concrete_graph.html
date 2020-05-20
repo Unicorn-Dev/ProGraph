@@ -9,8 +9,8 @@
     <a href="{% url 'graph:concrete_graph' graph.id %}" class="share_link">GraphID - {{ graph.id }} (Share link. Work with graph together!)</a>
 </div>
 
-{% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %}
-
+{% if error_message %}<p class="error"><mark class="red"><strong>{{ error_message }}</strong>1</mark>{% endif %}
+<p>
 <div class="content">
     <div class="control-panel">
         <div class="change-graph">
@@ -95,5 +95,5 @@
         <img class="graph_img" src="data:image/png;base64,{{ graph_img|safe }}" alt="Graph">
     </div>
 </div>
-
+</p>
 {% endblock content %}

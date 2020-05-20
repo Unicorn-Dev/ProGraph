@@ -39,13 +39,6 @@ class PillowGraph:
             xy[1] = (1 + math.sin(ind * 2 * math.pi / N) / 1.3) \
                     * self.imgYsize / 2
 
-    def add_edge(self, _from, _to, _weight=None) -> bool:
-        assert isinstance(_weight, None) or isinstance(_weight, int)
-        if _from not in self.AdjList or _to not in self.AdjList:
-            return False
-        self.AdjList[_from][_to] = _weight
-        return True
-
     def draw(self):
         im = Image.new('RGBA', (self.imgXsize, self.imgYsize))
 
@@ -83,10 +76,10 @@ class PillowGraph:
                 outline=(100, 100, 100, 200),
                 width=int(r / 10)
             )
-            font = ImageFont.truetype('static/fonts/CGR.ttf', int(r * 1.6))
+            font = ImageFont.truetype('static/fonts/CGR.ttf', int(r * 1.5))
             textX, textY = draw.textsize(str(name), font=font)
             draw.text([xy[0] - textX / 2, xy[1] - textY / 2],
-                      str(name), font=font, fill=(0, 0, 0, 255))
+                      str(name), font=font, fill=(256, 256, 256, 150))
 
     def _draw_edges(self, draw, special_edges=None):
         for _from, val in self.AdjList.items():
@@ -169,7 +162,7 @@ class PillowGraph:
             try:
                 _to, _from = edge.split()
             except:
-                raise VertexNumberError(edge)
+                raise VretexNumberError(edge)
         else:
             try:
                 _weight = int(_weight)

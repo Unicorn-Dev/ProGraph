@@ -45,25 +45,6 @@ def concrete_graph(request, graph_id=0):
     error_message = None
     return render(request, 'graph/concrete_graph.html', context)
 
-
-def complete_dfs(request, graph_id):
-    graph = get_object_or_404(Graph, pk=graph_id)
-    vertex = request.POST['start_vertex']
-    global error_message
-
-    try:
-        alg.dfs(graph, vertex)
-    except:
-        error_message = 'DFS failed.'
-        return HttpResponseRedirect(
-            reverse('concrete_graph', kwargs={'graph_id': graph.id}))
-    error_message = None
-    return HttpResponseRedirect(reverse('graph:next_step_dfs', kwargs={
-        'graph_id': graph.id,
-        'algo_iteration': 0,
-    }))
-
-
 def add_vertex(request, graph_id):
     graph = get_object_or_404(Graph, pk=graph_id)
     vertex = request.POST['vertex_name']
@@ -73,7 +54,7 @@ def add_vertex(request, graph_id):
     except ToLongName:
         error_message = 'Vertex name is too long.'
         return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
-    except VretexNumberErrortexAlreadyExist:
+    except VretexAlreadyExist:
         error_message = 'This vertex already exist.'
         return HttpResponseRedirect(reverse('graph:concrete_graph', kwargs={'graph_id': graph.id}))
     error_message = None
@@ -132,7 +113,6 @@ def delete_edge(request, graph_id):
 
 
 # Algorithms
-
 
 def complete_dfs(request, graph_id):
     graph = get_object_or_404(Graph, pk=graph_id)
