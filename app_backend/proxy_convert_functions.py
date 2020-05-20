@@ -1,0 +1,96 @@
+from .pillowgraph import PillowGraph
+from graph.models import Graph
+from django.utils import timezone
+
+
+def AdjListDictToString(AdjListDict):
+    """Convert AdjListDict to it's string representation"""
+    assert isinstance(AdjListDict, dict)
+    AdjListString = str(AdjListDict)
+    return AdjListString
+
+
+def AlgoSeqListToString(AlgoSequense):
+    """Convert AdjListDict to it's string representation"""
+    assert isinstance(AlgoSequense, list)
+    AlgoSequenseString = str(AlgoSequense)
+    return AlgoSequenseString
+
+
+def StringToAdjListDict(AdjListString):
+    """Convert AdjListString to it's dict representation"""
+    assert isinstance(AdjListString, str)
+    AdjListDict = eval(AdjListString, {'__builtins__':{}})
+    assert isinstance(AdjListDict, dict)
+    return AdjListDict
+
+
+def StringToAlgoSequenseList(AlgoSequenseString):
+    """Convert AdjListString to it's dict representation"""
+    assert isinstance(AlgoSequenseString, str)
+    AlgoSequense = eval(AlgoSequenseString, {'__builtins__':{}})
+    return AlgoSequense
+
+
+def get_graph_img(AdjList):
+    G = PillowGraph(AdjList)
+    return G.draw()
+
+
+def get_graph_img_with_algo(AdjList, AlgoSequense, algo_iteration):
+    G = PillowGraph(AdjList)
+    return G.algodraw(AlgoSequense, algo_iteration)
+
+
+def add_vertex(graph, vertex):
+    """
+    Raise Exception if sometsing gone wrong
+    and vertex is not added
+    """
+    assert isinstance(vertex, str)
+    gr = PillowGraph(StringToAdjListDict(graph.AdjList))
+    gr.add_vertex(vertex)
+    graph.AdjList = str(gr.AdjList)
+    graph.save()
+
+
+def add_edge(graph, edge):
+    """
+    Raise Exception if sometsing gone wrong
+    and edge is not added
+    """
+    assert isinstance(edge, str)
+    gr = PillowGraph(StringToAdjListDict(graph.AdjList))
+    gr.add_edge(edge)
+    graph.AdjList = str(gr.AdjList)
+    graph.save()
+
+
+def delete_vertex(graph, vertex):
+    """
+    Raise Exception if sometsing gone wrong
+    and vertex is not deleted
+    """
+    assert isinstance(vertex, str)
+    gr = PillowGraph(StringToAdjListDict(graph.AdjList))
+    gr.delete_vertex(vertex)
+    graph.AdjList = str(gr.AdjList)
+    graph.save()
+
+
+def delete_edge(graph, edge):
+    """
+    Raise Exception if sometsing gone wrong
+    and edge is not deleted.
+    """
+    assert isinstance(edge, str)
+    gr = PillowGraph(StringToAdjListDict(graph.AdjList))
+    gr.delete_edge(edge)
+    graph.AdjList = str(gr.AdjList)
+    graph.save()
+
+
+def create_graph():
+    new_graph = Graph(AdjList={}, pub_date=timezone.now())
+    new_graph.save()
+    return new_graph.id

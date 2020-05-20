@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="header">
+    <center>
+      <a class="cname" href="{% url 'main:index' %}">Pro Graph</a>
+    </center>
+</div>
+
+<div class="content">
+  <center>
+    <div class="main_menu">
+        <form action="{% url 'main:get_graph' %}" method="post">
+        {% csrf_token %}
+          <p>Get existing Graph. Paste graph id</p>
+          <input name="graph_id" type="text" placeholder="graph ID">
+          <input type="submit" value="Join">
+        </form>
+        <form action="{% url 'main:new_graph' %}" method="post">
+        {% csrf_token %}
+          <p>Or create new</p>
+          <input type="submit" value="Create new graph">
+        </form>
+    </div>
+  </center>
+</div>
+
+{% endblock content %}
