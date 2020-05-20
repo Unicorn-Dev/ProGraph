@@ -20,7 +20,7 @@
   ```
   $ python3 manage.py test graph
   $ python3 manage.py test main
-  $ python3 -m unittest app_backend/tests.py
+  $ python3 manage.py test app_backend
   ```
 1. Добавлена графика
 
