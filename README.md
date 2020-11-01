@@ -1,8 +1,5 @@
-
-
-
 # About ProGraph
-![](https://github.com/Falier77777/test_lfs2/blob/master/rew2.png)
+![](https://github.com/Unicorn-Dev/ProGraph/tree/master/ProGraph.jpg)
 Website created to make interaction with graphs easier.
 ProGraph helps visualize graph and applies a lot of algorithms.
 
