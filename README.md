@@ -1,5 +1,5 @@
 # About ProGraph
-![](https://github.com/Unicorn-Dev/ProGraph/tree/master/ProGraph.jpg)
+![](https://github.com/Unicorn-Dev/ProGraph/blob/master/img/ProGraph.jpg)
 Website created to make interaction with graphs easier.
 ProGraph helps visualize graph and applies a lot of algorithms.
 
